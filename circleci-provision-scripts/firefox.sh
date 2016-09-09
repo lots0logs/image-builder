@@ -3,7 +3,7 @@
 function install_firefox() {
     echo '>>> Installing Firefox'
 
-    local url="https://s3.amazonaws.com/circle-downloads/firefox_46.0.1%2Bbuild1-0ubuntu0.14.04.3_amd64.deb"
+    local url="https://s3.amazonaws.com/circle-downloads/firefox_48.0%2Bbuild2-0ubuntu0.14.04.1_amd64.deb"
     local deb_path="/tmp/firefox.deb"
 
     curl --output $deb_path $url
