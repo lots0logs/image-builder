@@ -1,6 +1,9 @@
 #!/bin/bash
 
 function install_qt() {
-    apt-get -y install qt5-default qt5-qmake qtbase5-dev libqt5webkit5-dev
-}
+    add-apt-repository -y ppa:beineri/opt-qt551-trusty
+    apt-get update
+    apt-get install qt55base qt55webkit libegl1-mesa-dev
 
+    echo 'source /opt/qt55/bin/qt55-env.sh' >> ${CIRCLECI_HOME}/.circlerc
+}
