@@ -1,0 +1,18 @@
+path: /home/ubuntu/wordpress
+url: 'http://wp-dev-site.com:8080'
+user: wpdev
+debug: false
+allow-root: true
+apache_modules:
+  - mod_rewrite
+core config:
+  dbhost: 127.0.0.1
+  dbname: circle_test
+  dbuser: ubuntu
+  dbpass: 
+  extra-php: |
+    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_SITEURL', 'http://wp-dev-site.com:8080' );
+    define( 'WP_HOMEURL', 'http://wp-dev-site.com:8080' );
+

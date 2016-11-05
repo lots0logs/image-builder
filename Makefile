@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-IMAGE_REPO = circleci/build-image
+IMAGE_REPO = elegantthemes/circleci-wordpress
 SHA = $(shell git rev-parse --short HEAD)
 VERSION = $(CIRCLE_BUILD_NUM)-$(SHA)
 NO_CACHE =
@@ -25,14 +25,31 @@ build-ubuntu-14.04-XXL:
 	-f targets/ubuntu-14.04-XXL/Dockerfile \
 	.
 
+build-wordpress:
+	docker-cache-shim pull ${IMAGE_REPO}
+	echo "Building Docker image wordpress-$(VERSION)"
+	docker build $(NO_CACHE) --build-arg IMAGE_TAG=wordpress-$(VERSION) \
+	-t $(IMAGE_REPO):wordpress-$(VERSION) \
+	-f targets/wordpress/Dockerfile \
+	.
+
 push-ubuntu-14.04-XXL:
 	docker-cache-shim push ${IMAGE_REPO}:ubuntu-14.04-XXL-$(VERSION)
 	$(call docker-push-with-retry,$(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION))
+
+push-wordpress:
+	docker-cache-shim push ${IMAGE_REPO}:wordpress-$(VERSION)
+	$(call docker-push-with-retry,$(IMAGE_REPO):wordpress-$(VERSION))
 
 dump-version-ubuntu-14.04-XXL:
 	docker run $(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION) sudo -H -i -u ubuntu /opt/circleci/bin/pkg-versions.sh | jq . > $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.json; true
 	curl -o versions.json.before https://circleci.com/docs/environments/trusty.json
 	diff -uw versions.json.before $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.json > $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.diff; true
+
+dump-version-wordpress:
+	docker run $(IMAGE_REPO):wordpress-$(VERSION) sudo -H -i -u ubuntu /opt/circleci/bin/pkg-versions.sh | jq . > $(CIRCLE_ARTIFACTS)/versions-wordpress.json; true
+	curl -o versions.json.before https://circleci.com/docs/environments/trusty.json
+	diff -uw versions.json.before $(CIRCLE_ARTIFACTS)/versions-wordpress.json > $(CIRCLE_ARTIFACTS)/versions-wordpress.diff; true
 
 test-ubuntu-14.04-XXL:
 	docker run -d -v ~/image-builder/tests:/home/ubuntu/tests -p 12345:22 --name ubuntu-14.04-XXL-test $(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION)
@@ -41,11 +58,20 @@ test-ubuntu-14.04-XXL:
 	sudo lxc-attach -n $$(docker inspect --format "{{.Id}}" ubuntu-14.04-XXL-test) -- bash -c "chown ubuntu:ubuntu /home/ubuntu/.ssh/authorized_keys"
 	chmod 600 tests/insecure-ssh-key; ssh -i tests/insecure-ssh-key -p 12345 ubuntu@localhost bats tests/unit/ubuntu-14.04-XXL
 
+test-wordpress:
+	docker run -d -v ~/image-builder/tests:/home/ubuntu/tests -p 12345:22 --name wordpress-test $(IMAGE_REPO):wordpress-$(VERSION)
+	sleep 10
+	docker cp tests/insecure-ssh-key.pub wordpress-test:/home/ubuntu/.ssh/authorized_keys
+	sudo lxc-attach -n $$(docker inspect --format "{{.Id}}" wordpress-test) -- bash -c "chown ubuntu:ubuntu /home/ubuntu/.ssh/authorized_keys"
+	chmod 600 tests/insecure-ssh-key; ssh -i tests/insecure-ssh-key -p 12345 ubuntu@localhost bats tests/unit/wordpress
+
 deploy-ubuntu-14.04-XXL:
 	./docker-export $(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION) > build-image-ubuntu-14.04-XXL-$(VERSION).tar.gz
 	aws s3 cp ./build-image-ubuntu-14.04-XXL-$(VERSION).tar.gz s3://circle-downloads/build-image-ubuntu-14.04-XXL-$(VERSION).tar.gz --acl public-read
 
 ubuntu-14.04-XXL: build-ubuntu-14.04-XXL push-ubuntu-14.04-XXL dump-version-ubuntu-14.04-XXL test-ubuntu-14.04-XXL
+
+wordpress: build-wordpress push-wordpress dump-version-wordpress test-wordpress
 
 ### ubuntu-14.04-XXL-enterprise
 # This build image is for CircleCI Enterprise customer. The image is very similar to ubuntu-14.04-XXL.

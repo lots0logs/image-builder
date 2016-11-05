@@ -1,6 +1,6 @@
 machine:
   environment:
-    IMAGE_REPO: "circleci/build-image"
+    IMAGE_REPO: "lots0logs/build-image"
     BUILD_TARGETS: $(cd $CIRCLE_PROJECT_REPONAME && git log --format=%B -n 1 | grep build-targets | sed 's/build-targets//')
 
   pre:

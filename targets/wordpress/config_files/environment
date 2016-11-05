@@ -1,0 +1,4 @@
+PHPVER='5.6.22'
+WPCLI_URL='https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar'
+WWWCONF_DIR=/etc/apache2/sites-available
+BASE_URL='http://wp-dev-site.com:8080'
