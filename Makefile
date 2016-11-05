@@ -27,9 +27,9 @@ build-ubuntu-14.04-XXL:
 
 build-wordpress:
 	docker-cache-shim pull ${IMAGE_REPO}
-	echo "Building Docker image wordpress-$(VERSION)"
-	docker build $(NO_CACHE) --build-arg IMAGE_TAG=wordpress-$(VERSION) \
-	-t $(IMAGE_REPO):wordpress-$(VERSION) \
+	echo "Building Docker image $(VERSION)"
+	docker build $(NO_CACHE) --build-arg IMAGE_TAG=$(VERSION) \
+	-t $(IMAGE_REPO):$(VERSION) \
 	-f targets/wordpress/Dockerfile \
 	.
 
@@ -38,8 +38,8 @@ push-ubuntu-14.04-XXL:
 	$(call docker-push-with-retry,$(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION))
 
 push-wordpress:
-	docker-cache-shim push ${IMAGE_REPO}:wordpress-$(VERSION)
-	$(call docker-push-with-retry,$(IMAGE_REPO):wordpress-$(VERSION))
+	docker-cache-shim push ${IMAGE_REPO}:$(VERSION)
+	$(call docker-push-with-retry,$(IMAGE_REPO):$(VERSION))
 
 dump-version-ubuntu-14.04-XXL:
 	docker run $(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION) sudo -H -i -u ubuntu /opt/circleci/bin/pkg-versions.sh | jq . > $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.json; true
@@ -47,7 +47,7 @@ dump-version-ubuntu-14.04-XXL:
 	diff -uw versions.json.before $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.json > $(CIRCLE_ARTIFACTS)/versions-ubuntu-14.04-XXL.diff; true
 
 dump-version-wordpress:
-	docker run $(IMAGE_REPO):wordpress-$(VERSION) sudo -H -i -u ubuntu /opt/circleci/bin/pkg-versions.sh | jq . > $(CIRCLE_ARTIFACTS)/versions-wordpress.json; true
+	docker run $(IMAGE_REPO):$(VERSION) sudo -H -i -u ubuntu /opt/circleci/bin/pkg-versions.sh | jq . > $(CIRCLE_ARTIFACTS)/versions-wordpress.json; true
 	curl -o versions.json.before https://circleci.com/docs/environments/trusty.json
 	diff -uw versions.json.before $(CIRCLE_ARTIFACTS)/versions-wordpress.json > $(CIRCLE_ARTIFACTS)/versions-wordpress.diff; true
 
@@ -59,7 +59,7 @@ test-ubuntu-14.04-XXL:
 	chmod 600 tests/insecure-ssh-key; ssh -i tests/insecure-ssh-key -p 12345 ubuntu@localhost bats tests/unit/ubuntu-14.04-XXL
 
 test-wordpress:
-	docker run -d -v ~/image-builder/tests:/home/ubuntu/tests -p 12345:22 --name wordpress-test $(IMAGE_REPO):wordpress-$(VERSION)
+	docker run -d -v ~/image-builder/tests:/home/ubuntu/tests -p 12345:22 --name wordpress-test $(IMAGE_REPO):$(VERSION)
 	sleep 10
 	docker cp tests/insecure-ssh-key.pub wordpress-test:/home/ubuntu/.ssh/authorized_keys
 	sudo lxc-attach -n $$(docker inspect --format "{{.Id}}" wordpress-test) -- bash -c "chown ubuntu:ubuntu /home/ubuntu/.ssh/authorized_keys"
