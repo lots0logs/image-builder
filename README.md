@@ -214,3 +214,4 @@ Once uploaded, attempt to start a new builder configured with
 `CIRCLE_CONTAINER_IMAGE_URI=s3://circleci-enterprise-bucket/containers/example-image_0.0.1.tar.gz`.
 Try running new builds on it.  Once it's all good, update the AutoScalingGroup
 Launch configuration to use the environment variable as well.
+
