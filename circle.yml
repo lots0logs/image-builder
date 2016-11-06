@@ -2,6 +2,7 @@ machine:
   environment:
     IMAGE_REPO: "lots0logs/build-image"
     BUILD_TARGETS: $(cd $CIRCLE_PROJECT_REPONAME && git log --format=%B -n 1 | grep build-targets | sed 's/build-targets//')
+    PATH: "${PATH}:/opt/circleci/bin"
 
   pre:
     - echo 'no_cache() { git log --format=%B -n 1 | grep -q "no cache"; }' >> ~/.circlerc
