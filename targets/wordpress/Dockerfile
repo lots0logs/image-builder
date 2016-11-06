@@ -122,7 +122,7 @@ RUN circleci-install php 7.0.11
 RUN sudo -H -i -u ubuntu phpenv global 5.6.22
 
 # Install php-mysql
-sudo apt-get -y install php5-mysql
+RUN sudo apt-get -y install php5-mysql
 
 # Setup container for running automated acceptance testing using WordPress (multisite) and Browserstack.
 ADD config_files /
