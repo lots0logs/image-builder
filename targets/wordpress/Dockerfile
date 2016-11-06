@@ -94,10 +94,8 @@ ADD circleci-provision-scripts/nodejs.sh /opt/circleci-provision-scripts/nodejs.
 # RUN circleci-install nodejs 5.6.0
 # RUN circleci-install nodejs 5.7.0
 # RUN circleci-install nodejs 6.1.0
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs
-RUN apt-get install build-essential libssl-dev make python g++ curl libssl-dev
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-RUN sudo -H -i -u ubuntu nvm alias default 6.9.1
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs libssl-dev
+# RUN sudo -H -i -u ubuntu nvm alias default 6.9.1
 
 ADD circleci-provision-scripts/go.sh /opt/circleci-provision-scripts/go.sh
 # RUN circleci-install golang 1.6.2
