@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source /config_files/.circlerc
 source /config_files/environment
 
 export HOME=/home/ubuntu
