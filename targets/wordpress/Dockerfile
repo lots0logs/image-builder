@@ -125,8 +125,8 @@ RUN sudo -H -i -u ubuntu phpenv global 5.6.22
 RUN sudo apt-get -y install php5-mysql
 
 # Setup container for running automated acceptance testing using WordPress (multisite) and Browserstack.
-ADD targets/wordpress/config_files /
-ADD targets/wordpress/container_setup.sh /usr/bin
+ADD targets/wordpress/config_files /config_files
+ADD targets/wordpress/container_setup.sh /usr/bin/container_setup.sh
 RUN chmod a+rw /config_files && chmod a+x /usr/bin/container_setup.sh && container_setup.sh
 
 ADD circleci-provision-scripts/clojure.sh /opt/circleci-provision-scripts/clojure.sh
