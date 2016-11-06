@@ -1,7 +1,9 @@
 #!/bin/bash
 
-source ~/.circlerc
+source /config_files/.circlerc
 source /config_files/environment
+
+export HOME=/home/ubuntu
 
 _2log() {
 	echo "[\^/^\^/\^/\^/^\^/^\^/] >>> ${1} <<< [\^/^\^/\^/\^/^\^/^\^/]"
