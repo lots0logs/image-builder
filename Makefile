@@ -71,7 +71,7 @@ deploy-ubuntu-14.04-XXL:
 
 ubuntu-14.04-XXL: build-ubuntu-14.04-XXL push-ubuntu-14.04-XXL dump-version-ubuntu-14.04-XXL test-ubuntu-14.04-XXL
 
-wordpress: build-wordpress push-wordpress dump-version-wordpress test-wordpress
+wordpress: build-wordpress push-wordpress dump-version-wordpress
 
 ### ubuntu-14.04-XXL-enterprise
 # This build image is for CircleCI Enterprise customer. The image is very similar to ubuntu-14.04-XXL.
