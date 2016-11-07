@@ -108,7 +108,7 @@ create_wordpress_database_tables() {
 
 set_permalinks_and_copy_htaccess_file() {
 	_wpcli_all rewrite structure '/%postname%'
-	cp config_files/.htaccess "${HOME}/wordpress/.htaccess"
+	cp /config_files/.htaccess "${HOME}/wordpress/.htaccess"
 }
 
 
