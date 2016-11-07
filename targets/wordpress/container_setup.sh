@@ -26,6 +26,9 @@ _wpcli_all() {
 
 
 ensure_mysql_permissions() {
+	_2log 'Start mysql'
+	service mysql start && sleep 4
+
 	_2log 'Make sure we can read/write to mysql.sock'
 	sudo usermod -a -G mysql ubuntu
 	sudo usermod -a -G ubuntu mysql
@@ -56,9 +59,6 @@ update_and_enable_apache_vhost_config() {
 
 download_and_install_wordpress() {
 	_cd "${HOME}"
-
-	_2log 'Start mysql'
-	service mysql start
 
 	_2log 'Download wp-cli and copy its config file to home directory.'
 	wget "${WPCLI_URL}" && chmod +x wp-cli.phar
