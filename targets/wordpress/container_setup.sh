@@ -35,7 +35,7 @@ ensure_mysql_permissions() {
 
 set_php_timezone() {
 	_2log 'Set timezone for php'
-	sed -i 's|;date.timezone =|date.timezone = America/Los_Angeles|g' "${PHPENV_ROOT}/versions/${PHPVER}/etc/php.ini"
+	sed -i 's|;date.timezone =|date.timezone = America/Los_Angeles|g' "${PHPENV_ROOT}/${PHPVER}/etc/php.ini"
 }
 
 
