@@ -57,6 +57,9 @@ update_and_enable_apache_vhost_config() {
 download_and_install_wordpress() {
 	_cd "${HOME}"
 
+	_2log 'Start mysql'
+	service mysql start
+
 	_2log 'Download wp-cli and copy its config file to home directory.'
 	wget "${WPCLI_URL}" && chmod +x wp-cli.phar
 	cp /config_files/wp-cli.yml .
@@ -109,6 +112,9 @@ set_permalinks_and_copy_htaccess_file() {
 
 
 ensure_apache_permissions() {
+	_2log 'Stop mysql'
+	service mysql stop
+
 	_2log 'Restart Apache and fix file permissions'
 	( _cd "${HOME}" \
 		&& sudo chown -R www-data:www-data wordpress \
