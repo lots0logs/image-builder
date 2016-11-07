@@ -96,7 +96,7 @@ create_wordpress_users() {
 create_wordpress_database_tables() {
 	_2log 'Create database tables'
 	_wpcli core multisite-install \
-		--admin_user=etdev \
+		--admin_user=wpdev \
 		--admin_password=welovewordpress \
 		--admin_email=ci@wp-dev-site.com \
 		--skip-email \
