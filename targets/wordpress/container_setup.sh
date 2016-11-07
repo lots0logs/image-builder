@@ -113,15 +113,11 @@ set_permalinks_and_copy_htaccess_file() {
 
 
 ensure_apache_permissions() {
-	_2log 'Stop mysql'
-	service mysql stop
-
-	_2log 'Restart Apache and fix file permissions'
+	_2log 'Fix file permissions'
 	( _cd "${HOME}" \
 		&& sudo chown -R www-data:www-data wordpress \
 		&& sudo find wordpress -type f -exec chmod 644 {} \; \
-		&& sudo find wordpress -type d -exec chmod 755 {} \; \
-		&& sudo service apache2 restart )
+		&& sudo find wordpress -type d -exec chmod 755 {} \; )
 }
 
 
