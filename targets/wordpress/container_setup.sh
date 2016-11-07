@@ -140,9 +140,9 @@ run_setup() {
 		&& ( set_php_timezone ) \
 		&& ( update_and_enable_apache_vhost_config ) \
 		&& ( download_and_install_wordpress ) \
+		&& ( create_wordpress_database_tables ) \
 		&& ( create_wordpress_sites ) \
 		&& ( create_wordpress_users ) \
-		&& ( create_wordpress_database_tables ) \
 		&& ( set_permalinks_and_copy_htaccess_file ) \
 		&& ( ensure_apache_permissions ) \
 		&& ( download_browserstack_binary )
