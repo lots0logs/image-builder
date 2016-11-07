@@ -26,9 +26,10 @@ _wpcli_all() {
 
 
 ensure_mysql_permissions() {
-	_2log 'Start mysql'
-	service mysql start && sleep 4
-
+	_2log 'Copy mysql config'
+	sudo cp /config_files/mysql.cnf /etc/mysql
+	_2log 'Restart mysql'
+	sudo service mysql restart
 	_2log 'Make sure we can read/write to mysql.sock'
 	sudo usermod -a -G mysql ubuntu
 	sudo usermod -a -G ubuntu mysql
@@ -38,7 +39,7 @@ ensure_mysql_permissions() {
 
 set_php_timezone() {
 	_2log 'Set timezone for php'
-	sed -i 's|;date.timezone =|date.timezone = America/Los_Angeles|g' "${PHPENV_ROOT}/${PHPVER}/etc/php.ini"
+	sudo sed -i 's|;date.timezone =|date.timezone = America/Los_Angeles|g' "${PHPENV_ROOT}/${PHPVER}/etc/php.ini"
 }
 
 
