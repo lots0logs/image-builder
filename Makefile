@@ -18,7 +18,7 @@ endif
 # and services such as MySQL or Redis are installed.
 ###
 build-ubuntu-14.04-XXL:
-	docker-cache-shim pull ${IMAGE_REPO}
+	docker-cache-shim pull ${IMAGE_REPO} || true
 	echo "Building Docker image ubuntu-14.04-XXL-$(VERSION)"
 	docker build $(NO_CACHE) --build-arg IMAGE_TAG=ubuntu-14.04-XXL-$(VERSION) \
 	-t $(IMAGE_REPO):ubuntu-14.04-XXL-$(VERSION) \
@@ -78,7 +78,7 @@ wordpress: build-wordpress push-wordpress dump-version-wordpress
 # The only difference is that this image has official Docker installed.
 ###
 build-ubuntu-14.04-XXL-enterprise:
-	docker-cache-shim pull ${IMAGE_REPO}
+	docker-cache-shim pull ${IMAGE_REPO} || true
 	echo "Building Docker image ubuntu-14.04-XXL-enterprise-$(VERSION)"
 	docker build $(NO_CACHE) --build-arg IMAGE_TAG=ubuntu-14.04-XXL-enterprise-$(VERSION) \
 	-t $(IMAGE_REPO):ubuntu-14.04-XXL-enterprise-$(VERSION) \
@@ -109,7 +109,7 @@ ubuntu-14.04-XXL-enterprise: build-ubuntu-14.04-XXL-enterprise push-ubuntu-14.04
 # The images matches the content of Ubuntu 14.04 XXL except network services.
 ###
 build-ubuntu-14.04-XL:
-	docker-cache-shim pull ${IMAGE_REPO}
+	docker-cache-shim pull ${IMAGE_REPO} || true
 	echo "Building Docker image ubuntu-14.04-XL-$(VERSION)"
 	docker build $(NO_CACHE) --build-arg IMAGE_TAG=ubuntu-14.04-XL-$(VERSION) \
 	-t $(IMAGE_REPO):ubuntu-14.04-XL-$(VERSION) \
