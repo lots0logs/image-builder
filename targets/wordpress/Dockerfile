@@ -129,6 +129,10 @@ ADD targets/wordpress/config_files /config_files
 ADD targets/wordpress/container_setup.sh /usr/bin/container_setup.sh
 RUN chmod a+rw /config_files && chmod a+x /usr/bin/container_setup.sh && sudo -u ubuntu container_setup.sh
 
+# Add container run script
+ADD targets/wordpress/run.sh /usr/bin/run.sh
+RUN chmod a+x /usr/bin/run.sh
+
 ADD circleci-provision-scripts/clojure.sh /opt/circleci-provision-scripts/clojure.sh
 # RUN circleci-install clojure
 
@@ -161,3 +165,7 @@ RUN echo $IMAGE_TAG > /opt/circleci/image_version
 ADD targets/wordpress/pkg-versions.sh /opt/circleci/bin/pkg-versions.sh
 
 LABEL circleci.user="ubuntu"
+
+VOLUME /home/ubuntu/source_repo
+VOLUME /home/ubuntu/runtime_environment
+
