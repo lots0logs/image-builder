@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 function install_redis() {
     apt-get install redis-server

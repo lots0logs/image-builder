@@ -19,8 +19,8 @@ ADD circleci-provision-scripts/mysql.sh circleci-provision-scripts/mongo.sh circ
 RUN for package in mysql_57; do circleci-install $package; done
 
 # Installing java early beacuse a few things have the dependency to java (i.g. cassandra)
-ADD circleci-provision-scripts/java.sh /opt/circleci-provision-scripts/java.sh
-RUN circleci-install java oraclejdk8 && circleci-install java openjdk8
+# ADD circleci-provision-scripts/java.sh /opt/circleci-provision-scripts/java.sh
+# RUN circleci-install java oraclejdk8 && circleci-install java openjdk8
 
 ADD circleci-provision-scripts/misc.sh /opt/circleci-provision-scripts/misc.sh
 RUN for package in sysadmin devtools jq; do circleci-install $package; done
@@ -29,7 +29,7 @@ RUN for package in sysadmin devtools jq; do circleci-install $package; done
 # RUN for s in apache2; do sysv-rc-conf $s off; done
 
 # Browsers
-ADD circleci-provision-scripts/firefox.sh circleci-provision-scripts/chrome.sh circleci-provision-scripts/phantomjs.sh /opt/circleci-provision-scripts/
+# ADD circleci-provision-scripts/firefox.sh circleci-provision-scripts/chrome.sh circleci-provision-scripts/phantomjs.sh /opt/circleci-provision-scripts/
 # RUN circleci-install firefox && circleci-install chrome && circleci-install phantomjs
 
 # Android
@@ -48,7 +48,7 @@ ADD circleci-provision-scripts/firefox.sh circleci-provision-scripts/chrome.sh c
 # RUN circleci-install android_sdk addon-google_apis-google-22
 
 # Qt
-ADD circleci-provision-scripts/qt.sh /opt/circleci-provision-scripts/qt.sh
+# ADD circleci-provision-scripts/qt.sh /opt/circleci-provision-scripts/qt.sh
 # RUN circleci-install qt
 
 # Install deployment tools
@@ -118,7 +118,7 @@ ADD circleci-provision-scripts/php.sh /opt/circleci-provision-scripts/php.sh
 RUN circleci-install php 5.6.22
 # RUN circleci-install php 7.0.4
 # RUN circleci-install php 7.0.7
-RUN circleci-install php 7.0.11
+# RUN circleci-install php 7.0.11
 RUN sudo -H -i -u ubuntu phpenv global 5.6.22
 
 # Install php-mysql
